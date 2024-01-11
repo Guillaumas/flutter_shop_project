@@ -3,6 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:projects/cart_page.dart';
 import 'package:projects/bo/article.dart';
+import 'package:projects/article_detail_page.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,12 +25,16 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           actions: <Widget>[
             IconButton(
+              icon: const Icon(Icons.info),
+              onPressed: () {
+                Navigator.pushNamed(context,'/info');
+              },
+            ),
+            const SizedBox(width: 10),
+            IconButton(
               icon: const Icon(Icons.shopping_cart),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CartPage()),
-                );
+                Navigator.pushNamed(context,'/cart');
               },
             ),
           ],
@@ -46,9 +52,17 @@ class _HomePageState extends State<HomePage> {
                   icon: const Icon(Icons.add_shopping_cart),
                   onPressed: () {
                     Provider.of<Cart>(context, listen: false)
-                        .addToCart(articles[index]);
+                        .addToCart(articles[index], context);
                   },
                 ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ArticleDetailPage(article: articles[index]),
+                    ),
+                  );
+                },
               );
             },
           ),
@@ -57,3 +71,29 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+//body: Column(
+//             children: [
+//               FutureBuilder<List<Article>>(
+//               future: fetchListArticles(),
+//                   builder: (context, snapshot) =>
+//                   snapshot.hasData ?
+//                   ListView.separated(
+//                     itemCount: snapshot.data!.length,
+//                     separatorBuilder: (_, __) => const Divider(),
+//                     itemBuilder: (context,int index) =>
+//                         ItemArticle(article: snapshot.data![index])),
+//                       : const Icon(Icons.error)
+//               ),
+//             ],
+//           ),
+//
+// Future<List<Article>> fetchListArticles() async {
+//   final response = await get(Uri.parse('https://fakestoreapi.com/products'));
+//   if (response.statusCode == 200 && response.body.isNotEmpty) {
+//     final listMapArticles = jsonDecode(response.body) as List<dynamic>;
+//     return listMapArticles.map((article) => Article.fromMap(article)).toList();
+
+//   else {
+//     throw Exception('Failed to load album');
+

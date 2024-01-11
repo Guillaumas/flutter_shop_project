@@ -38,6 +38,8 @@ class Article {
         categorie = json['categorie'];
 
 
+
+
   static List<Article> articleGenerator(int count) {
     Random random = Random();
     List<Article> articles = [];
@@ -61,7 +63,7 @@ class Article {
       {"nom": "Chicouté", "image": "cloudberry.svg"},
       {"nom": "Noix de coco", "image": "coconut.svg"},
       {"nom": "Canneberge", "image": "cranberry.svg"},
-      {"nom": "Groiselle", "image": "currant.svg"},
+      {"nom": "Groseille", "image": "currant.svg"},
       {"nom": "Prune Damas", "image": "damson.svg"},
       {"nom": "Datte", "image": "date.svg"},
       {"nom": "Fruit du dragon", "image": "dragonfruit.svg"},
@@ -103,14 +105,13 @@ class Article {
       {"nom": "Coing", "image": "quince.svg"},
       {"nom": "Ramboutan", "image": "rambutan.svg"},
       {"nom": "Framboise", "image": "raspberry.svg"},
-      {"nom": "Groseille", "image": "redcurrant.svg"},
+      {"nom": "Groseille rouge", "image": "redcurrant.svg"},
       {"nom": "Satsuma", "image": "satsuma.svg"},
       {"nom": "Carambole", "image": "starfruit.svg"},
       {"nom": "Fraise", "image": "strawberry.svg"},
       {"nom": "Mandarine", "image": "tangerine.svg"},
       {"nom": "Pastèque", "image": "watermelon.svg"}
     ];
-
 
     for (int i = 0; i < count; i++) {
       int index = random.nextInt(fruits.length);
@@ -124,6 +125,26 @@ class Article {
       ));
     }
     return articles;
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'nom': this.nom,
+      'description': this.description,
+      'prix': this.prix,
+      'image': this.image,
+      'categorie': this.categorie,
+    };
+  }
+
+  factory Article.fromMap(Map<String, dynamic> map) {
+    return Article(
+      nom: map['title'] as String,
+      description: map['description'] as String,
+      prix: map['price'] as int,
+      image: map['image'] as String,
+      categorie: map['category'] as String,
+    );
   }
 }
 
